@@ -1,6 +1,12 @@
 {# quand on extend il faut bien donner le chemin relatif par rapport au dossier templates #}
 {% extends 'book/index.html.twig' %}
 
-{% block main %}
-	<h2>Fiche du livre ??</h2>
+{% block title %}Fiche du livre {{ book.title }}{% endblock %}
+
+{% block body %}
+  <h1>Fiche du livre "{{ book.title }}"</h1>
+
+  <p>Date de publication : {{ book.date_of_publication|date('d/m/Y') }}</p>
+
+  <a href="{{ url('list_books') }}">Revenir à la liste des livres</a>
 {% endblock %}
