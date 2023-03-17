@@ -1,0 +1,19 @@
+{# templates/book/single.html.twig #}
+
+{% extends 'book/index.html.twig' %}
+
+{% block main %}
+    <h2>{{ book.title }}</h2>
+
+    <p>Date de publication : {{ book.dateOfPublication|date('d/m/Y') }}</p>
+
+    {# Formulaire de suppression du livre #}
+    <div class="mt-4">
+        <h3>Supprimer ce livre</h3>
+        {{ form_start(delete_form, {'attr': {'class': 'delete-form'}}) }}
+        {{ form_widget(delete_form) }}
+        {{ form_end(delete_form) }}
+    </div>
+
+    <a href="{{ path('list_books') }}">Revenir à la liste des livres</a>
+{% endblock %}

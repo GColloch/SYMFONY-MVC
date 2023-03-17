@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\AddBook;
+use App\Form\DeleteBook;
 use App\Entity\Book;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,11 +63,26 @@ class BookController extends AbstractController
     }
 
     /**
-     * Route pour ajouter un livre. Par exemple, books/1, books/138, etc.
+     * Route pour afficher un livre en détail. Par exemple, books/1, books/138, etc.
      */
-    #[Route('/books/{id}', name: 'single_book', methods: ['GET', 'DELETE', 'PUT'], requirements: ['id' => '\d+'])]
-    public function singleBook(): Response
+    #[Route('/books/{id}', name: 'single_book', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function singleBook(int $id, EntityManagerInterface $em, Request $request): Response
     {
-        return $this->render('book/single.html.twig');
-    }
-}
+        // Récupération du livre à partir de son id
+        $book = $em->getRepository(Book::class)->find($id);
+
+        if (!$book) {
+            throw $this->createNotFoundException('Le livre n\'existe pas');
+        }
+
+        //Crée un formulaire pour supprimer le livre, l'associer à l'objet Book correspondant
+        $form = $this->createForm(DeleteBook::class, $book, options: array(
+            'action' => $this->generateUrl('single_book', ['id' => $id]),
+            'method' => 'DELETE'
+        ));
+
+        //Inspecte la requête pour voir si le formulaire est soumis, si c'est le cas, change l'état du formulaire à 'soumis'
+        $form->handleRequest($request);
+
+        //Traiter le formulaire soumis s'il est valide
+        if ($form->
