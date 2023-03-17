@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'books')]
+
 class Book
 {
 
@@ -20,6 +21,8 @@ class Book
     private ?string $title = null;
 
     #[ORM\Column(name: 'date_of_publication', type: 'date')]
+    #[Assert\NotBlank()]
+    #[Assert\LessThanOrEqual("today", message="La date de publication doit être inférieure ou égale à la date d'aujourd'hui.")]
     private ?\DateTimeInterface $dateOfPublication = null;
 
     public function getId(): ?int
