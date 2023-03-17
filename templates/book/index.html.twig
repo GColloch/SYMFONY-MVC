@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bibliothèque
+{% endblock %}
+
+{% block body %}
+
+	{% block h1 %}
+		<h1>Bibliothèque</h1>
+	{% endblock %}
+
+	{# url() => url absolue (avec le nom de domaine, par exemple url('add_book') donne "https://127.0.0.1/books/add") #}
+	{# path() => url relative (sans le nom de domaine, par exemple path('add_book) donne "/books/add") #}
+
+	{% block main %}
+		{# contenu principal de la page #}
+		<h2>Liste des livres</h2>
+
+		<ul>
+			{% for book in books %}
+				<li>{{book.title}}</li>
+			{% endfor %}
+		</ul>
+
+		<a href="{{url('add_book')}}">Ajouter un livre</a>
+	{% endblock %}
+
+
+{% endblock %}
