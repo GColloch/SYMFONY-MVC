@@ -18,8 +18,9 @@
 
 		<ul>
 			{% for book in books %}
-				<li>{{book.title}}</li>
+    			<li><a href="{{ path('book_show', {'id': book.id}) }}">{{ book.title }}</a></li>
 			{% endfor %}
+
 		</ul>
 
 		<a href="{{url('add_book')}}">Ajouter un livre</a>
