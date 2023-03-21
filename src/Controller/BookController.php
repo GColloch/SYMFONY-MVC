@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class BookController extends AbstractController
 {
@@ -35,6 +36,9 @@ class BookController extends AbstractController
     #[Route('/books/add', name: 'add_book', methods: ['GET', 'POST'])]
     public function addBook(Request $request, EntityManagerInterface $em): Response
     {
+        // Vérifie si l'utilisateur est authentifié
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         //Créer un objet de type Book
         $book = new Book();
 
@@ -68,6 +72,9 @@ class BookController extends AbstractController
     #[Route('/books/{id}', name: 'single_book', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function singleBook(int $id, EntityManagerInterface $em, Request $request): Response
     {
+        // Vérifie si l'utilisateur est authentifié
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         // Récupération du livre à partir de son id
         $book = $em->getRepository(Book::class)->find($id);
 
@@ -78,11 +85,3 @@ class BookController extends AbstractController
         //Crée un formulaire pour supprimer le livre, l'associer à l'objet Book correspondant
         $form = $this->createForm(DeleteBook::class, $book, options: array(
             'action' => $this->generateUrl('single_book', ['id' => $id]),
-            'method' => 'DELETE'
-        ));
-
-        //Inspecte la requête pour voir si le formulaire est soumis, si c'est le cas, change l'état du formulaire à 'soumis'
-        $form->handleRequest($request);
-
-        //Traiter le formulaire soumis s'il est valide
-        if ($form->

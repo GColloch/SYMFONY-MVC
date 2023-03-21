@@ -1,0 +1,13 @@
+Problème partie bonus sur la question 8 : 
+J'ai eu un problème avec la commande composer require symfony/security-bundle car ça me disait que l'extension openssl n'etait pas activé mais pourtant dans mon php.ini elle était belle et bien activé dans mon dossier PHP.
+J'ai installé le fichier php_openssl.dll dans mon dossier PHP.
+J'ai ensuite essayer de taper la commande which php mais le terme which n'était pas reconnu en tant que commande interne. J'ai taper la commande echo $PATH mais rien ne s'affichait.
+
+
+Voici les étapes que j'aurais effectués si je n'avais pas eu ce probème :
+
+- j'aurais taper la commande composer require symfony/security-bundle
+- ensuite j'ai configurer les paramètres de sécurité dans mon sécurity.yaml avec mon user foo et mon mdp 'bar' (voir fichier sécurity.yaml)
+-j'ai ensuite apporter des modifications dans bookController pour ajouter l'annotation @IsGranted("ROLE_USER") (voir fichier bookController)
+
+

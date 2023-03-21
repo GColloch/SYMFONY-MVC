@@ -37,3 +37,27 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+
+security:
+  encoders:
+    Symfony\Component\Security\Core\User\User: plaintext
+
+  providers:
+    in_memory:
+      memory:
+        users:
+          foo:
+            password: 'bar'
+            roles: 'ROLE_USER'
+
+  firewalls:
+    main:
+      anonymous: ~
+      http_basic:
+        realm: "Secured Area"
+      provider: in_memory
+      pattern: ^/
+
+  access_control:
+    - { path: ^/books/add, roles: ROLE_USER }
+    - { path: ^/books/[0-9]+$, roles: ROLE_USER }
